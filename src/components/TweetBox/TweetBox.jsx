@@ -3,6 +3,7 @@ import TweetInput from "./TweetInput"
 import "./TweetBox.css"
 
 export default function TweetBox(props) {
+
   function handleOnTweetTextChange(evt){
     props.setTweetText(evt.target.value);
   }

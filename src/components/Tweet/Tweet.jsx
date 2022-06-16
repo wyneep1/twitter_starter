@@ -4,22 +4,31 @@ import { formatLikes } from "../../utils/format"
 import "./Tweet.css"
 
 export default function Tweet({ tweet }) {
+  const[likes, setLikes] = React.useState(tweet.likes);
+  const[collapse, setCollapse] = React.useState(false);
+
+  function likesFunction(){
+    setLikes(likes + 1);
+  }
+  function collapseFunction(){
+    setCollapse(!collapse);
+  }
   return (
-    <div className="tweet" data-tweet-id={null}>
+    <div className="tweet" data-tweet-id={tweet.id}>
       <div className="tweet-avatar">
         <AvatarIcon />
       </div>
 
       <div className="tweet-content">
-        <TweetUserInfo name={tweet.name} handle={tweet.handle}/>
-        <p className="tweet-text">{tweet.text}</p>
-        <TweetFooter numComments={tweet.comments} numRetweets={tweet.retweets} numLikes={tweet.likes}/>
+        <TweetUserInfo name={tweet.name} handle={tweet.handle} collapseFunction={collapseFunction}/>
+        <p className={collapse ? "collapse" : "tweet-text"}>{tweet.text}</p>
+        <TweetFooter numComments={tweet.comments} numRetweets={tweet.retweets} numLikes={likes} likesFunction={likesFunction}/>
       </div>
     </div>
   )
 }
 
-export function TweetUserInfo({ name, handle }) {
+export function TweetUserInfo({ name, handle, collapseFunction }) {
   return (
     <div className="tweet-user-info">
       <div className="meta">
@@ -28,12 +37,12 @@ export function TweetUserInfo({ name, handle }) {
         <span className="dot">•</span>
         <span className="ts">1 min</span>
       </div>
-      <i className="fa fa-angle-down"></i>
+      <i className="fa fa-angle-down" onClick={collapseFunction}></i>
     </div>
   )
 }
 
-export function TweetFooter({ numComments, numRetweets, numLikes }) {
+export function TweetFooter({ numComments, numRetweets, numLikes, likesFunction }) {
   return (
     <div className="tweet-footer">
       <span>
@@ -45,7 +54,7 @@ export function TweetFooter({ numComments, numRetweets, numLikes }) {
         {numRetweets || 0}
       </span>
       <span>
-        <i className="fas fa-heart"></i>
+        <i className="fas fa-heart" onClick={likesFunction}></i>
         {formatLikes(numLikes ?? 0)}
       </span>
       <span>

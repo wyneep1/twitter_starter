@@ -64,6 +64,11 @@
   display: flex;
 }
 
+.collapse{
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
 
 @media screen and (max-width: 740px) {
   .tweet {
